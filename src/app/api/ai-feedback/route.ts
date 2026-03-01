@@ -13,7 +13,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
   }
 
-  // Check subscription allows AI feedback
   const subscription = await prisma.subscription.findUnique({
     where: { userId: session.user.id },
   });
@@ -24,7 +23,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Upgrade to Sonata or Symphony for AI feedback." }, { status: 403 });
   }
 
-  // Check monthly usage for Sonata (limit: 5)
   if (tier === "SONATA") {
     const startOfMonth = new Date();
     startOfMonth.setDate(1);
@@ -41,7 +39,6 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // Call OpenAI
   const prompt = `You are an expert music teacher providing professional feedback to a student.
 
 Instrument: ${instrument}
@@ -74,7 +71,6 @@ Be conversational, warm, and specific. Avoid generic advice.`;
   const geminiData = await geminiRes.json();
   const feedback = geminiData.candidates[0].content.parts[0].text;
 
-  // Save feedback
   await prisma.aIFeedback.create({
     data: {
       userId: session.user.id,
