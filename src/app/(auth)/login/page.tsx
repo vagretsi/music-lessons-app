@@ -42,8 +42,7 @@ export default function LoginPage() {
       setError(t.error);
       setLoading(false);
     } else {
-      router.push("/dashboard");
-      router.refresh();
+      window.location.href = "/dashboard";
     }
   };
 
