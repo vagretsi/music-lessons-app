@@ -55,26 +55,24 @@ Please provide specific, actionable, encouraging feedback. Cover:
 
 Be conversational, warm, and specific. Avoid generic advice.`;
 
-  const openAIRes = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-    },
-    body: JSON.stringify({
-      model: "gpt-4o-mini",
-      messages: [{ role: "user", content: prompt }],
-      max_tokens: 600,
-    }),
-  });
+  const geminiRes = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+      }),
+    }
+  );
 
-  if (!openAIRes.ok) {
-    console.error("OpenAI error:", await openAIRes.text());
+  if (!geminiRes.ok) {
+    console.error("Gemini error:", await geminiRes.text());
     return NextResponse.json({ error: "AI service temporarily unavailable." }, { status: 502 });
   }
 
-  const openAIData = await openAIRes.json();
-  const feedback = openAIData.choices[0].message.content;
+  const geminiData = await geminiRes.json();
+  const feedback = geminiData.candidates[0].content.parts[0].text;
 
   // Save feedback
   await prisma.aIFeedback.create({
