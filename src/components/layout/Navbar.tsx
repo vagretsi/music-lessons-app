@@ -56,8 +56,13 @@ export function Navbar() {
           </button>
 
           {session ? (
-            <div className="flex items-center gap-3">
-              <Link href="/dashboard" className="btn-secondary text-sm py-2 px-4">
+  <div className="flex items-center gap-3">
+    {session.user.role === "ADMIN" && (
+      <Link href="/admin" className="text-gold/60 hover:text-gold transition-colors text-xs tracking-widest uppercase border border-gold/30 px-3 py-1.5">
+        Admin
+      </Link>
+    )}
+    <Link href="/dashboard" className="btn-secondary text-sm py-2 px-4">
                 {locale === "el" ? "Πίνακας" : "Dashboard"}
               </Link>
               <button

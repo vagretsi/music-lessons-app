@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { UserRoleSelect } from "@/components/admin/UserRoleSelect";
+import { UserSubscriptionSelect } from "@/components/admin/UserSubscriptionSelect";
 import { Users } from "lucide-react";
 
 export default async function AdminUsersPage() {
@@ -27,6 +28,7 @@ export default async function AdminUsersPage() {
               <th className="text-left px-6 py-4 text-gold/60 text-xs tracking-widest uppercase">Plan</th>
               <th className="text-left px-6 py-4 text-gold/60 text-xs tracking-widest uppercase">Joined</th>
               <th className="text-left px-6 py-4 text-gold/60 text-xs tracking-widest uppercase">Role</th>
+              <th className="text-left px-6 py-4 text-gold/60 text-xs tracking-widest uppercase">Subscription</th>
             </tr>
           </thead>
           <tbody>
@@ -56,6 +58,9 @@ export default async function AdminUsersPage() {
                 <td className="px-6 py-4">
                   <UserRoleSelect userId={user.id} currentRole={user.role} />
                 </td>
+                <td className="px-6 py-4">
+  <UserSubscriptionSelect userId={user.id} currentTier={user.subscription?.tier ?? "PRELUDE"} />
+</td>
               </tr>
             ))}
           </tbody>
