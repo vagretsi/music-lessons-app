@@ -26,7 +26,7 @@ export default async function LessonsPage() {
     return tierOrder[userTier as keyof typeof tierOrder] >= tierOrder[lessonTier as keyof typeof tierOrder];
   }
 
-  const instruments = [...new Set(lessons.map((l) => l.instrument).filter(Boolean))];
+  const instruments = Array.from(new Set(lessons.map((l) => l.instrument).filter(Boolean)));
 
   return (
     <div className="min-h-screen pt-24 pb-16 px-6">
