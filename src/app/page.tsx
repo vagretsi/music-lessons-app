@@ -35,8 +35,8 @@ const features = [
 
 const plans = [
   { name: "Prelude", price: "Free", desc: "A light start for new students." },
-  { name: "Sonata", price: "€14.99/mo", desc: "The balanced plan for steady growth.", featured: true },
-  { name: "Symphony", price: "€29.99/mo", desc: "Full access for serious practice." },
+  { name: "Sonata", price: "€39.99/mo", desc: "The balanced plan for steady growth.", featured: true },
+  { name: "Symphony", price: "€79.99/mo", desc: "Full access for serious practice." },
 ];
 
 export default function HomePage() {

@@ -15,7 +15,7 @@ export const PLANS = {
   SONATA: {
     name: "Sonata",
     tier: "SONATA" as const,
-    price: { monthly: 1499, yearly: 14390 }, // cents
+    price: { monthly: 3999, yearly: 38390 }, // cents
     priceId: {
       monthly: process.env.STRIPE_PRICE_SONATA_MONTHLY!,
       yearly: process.env.STRIPE_PRICE_SONATA_YEARLY!,
@@ -24,7 +24,7 @@ export const PLANS = {
   SYMPHONY: {
     name: "Symphony",
     tier: "SYMPHONY" as const,
-    price: { monthly: 2999, yearly: 28790 }, // cents
+    price: { monthly: 7999, yearly: 76790 }, // cents
     priceId: {
       monthly: process.env.STRIPE_PRICE_SYMPHONY_MONTHLY!,
       yearly: process.env.STRIPE_PRICE_SYMPHONY_YEARLY!,

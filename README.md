@@ -30,8 +30,8 @@ A full-stack online music academy built with Next.js 14. Students can watch vide
 | Tier | Price | Highlights |
 |---|---|---|
 | **Prelude** | Free | 5 video lessons/month, basic progress tracking |
-| **Sonata** | €14.99/mo | Unlimited lessons, 2 live sessions/month, 5 AI feedbacks/month |
-| **Symphony** | €29.99/mo | Everything in Sonata + unlimited live sessions & AI feedback, masterclasses |
+| **Sonata** | €39.99/mo | Unlimited lessons, 2 live sessions/month, 5 AI feedbacks/month |
+| **Symphony** | €79.99/mo | Everything in Sonata + unlimited live sessions & AI feedback, masterclasses |
 
 Yearly billing available at a 20% discount.
 
@@ -60,12 +60,12 @@ Fill in your `.env.local` (see [Environment Variables](#environment-variables) b
 In your [Stripe Dashboard](https://dashboard.stripe.com/products), create two products:
 
 **Sonata**
-- Monthly: €14.99 → `STRIPE_PRICE_SONATA_MONTHLY`
-- Yearly: €143.90 → `STRIPE_PRICE_SONATA_YEARLY`
+- Monthly: €39.99 → `STRIPE_PRICE_SONATA_MONTHLY`
+- Yearly: €383.90 → `STRIPE_PRICE_SONATA_YEARLY`
 
 **Symphony**
-- Monthly: €29.99 → `STRIPE_PRICE_SYMPHONY_MONTHLY`
-- Yearly: €287.90 → `STRIPE_PRICE_SYMPHONY_YEARLY`
+- Monthly: €79.99 → `STRIPE_PRICE_SYMPHONY_MONTHLY`
+- Yearly: €767.90 → `STRIPE_PRICE_SYMPHONY_YEARLY`
 
 ### 4. Set up the database
 
