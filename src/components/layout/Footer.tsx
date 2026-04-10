@@ -3,51 +3,53 @@ import { Music } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="border-t border-gold/10 py-12 px-6">
+    <footer className="px-6 pb-10 pt-2">
       <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between gap-8">
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-7 h-7 border border-gold/50 flex items-center justify-center">
-                <Music size={14} className="text-gold" />
+        <div className="rounded-[32px] border border-white/10 bg-white/5 px-6 py-10 shadow-[0_24px_60px_rgba(2,6,23,0.16)] backdrop-blur-sm md:px-10">
+          <div className="flex flex-col justify-between gap-10 md:flex-row">
+            <div className="max-w-sm">
+              <div className="mb-4 flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+                  <Music size={16} className="text-gold" />
+                </div>
+                <span className="font-display text-xl text-cream">Maestro</span>
               </div>
-              <span className="font-display text-lg text-cream">Maestro</span>
+              <p className="text-sm leading-relaxed text-cream/50">
+                Professional music education with a calmer interface, clearer rhythm, and less visual heaviness.
+              </p>
             </div>
-            <p className="text-cream/40 text-sm max-w-xs leading-relaxed">
-              Professional music education, online and on demand.
-            </p>
+
+            <div className="grid grid-cols-2 gap-8 text-sm md:grid-cols-3">
+              <div>
+                <p className="mb-3 text-xs uppercase tracking-[0.25em] text-gold/75">Platform</p>
+                <div className="flex flex-col gap-2">
+                  <Link href="/lessons" className="text-cream/60 transition-colors hover:text-cream">Lessons</Link>
+                  <Link href="/booking" className="text-cream/60 transition-colors hover:text-cream">Book a Session</Link>
+                  <Link href="/pricing" className="text-cream/60 transition-colors hover:text-cream">Pricing</Link>
+                </div>
+              </div>
+              <div>
+                <p className="mb-3 text-xs uppercase tracking-[0.25em] text-gold/75">Account</p>
+                <div className="flex flex-col gap-2">
+                  <Link href="/login" className="text-cream/60 transition-colors hover:text-cream">Sign In</Link>
+                  <Link href="/register" className="text-cream/60 transition-colors hover:text-cream">Register</Link>
+                  <Link href="/dashboard" className="text-cream/60 transition-colors hover:text-cream">Dashboard</Link>
+                </div>
+              </div>
+              <div>
+                <p className="mb-3 text-xs uppercase tracking-[0.25em] text-gold/75">Legal</p>
+                <div className="flex flex-col gap-2">
+                  <Link href="/privacy" className="text-cream/60 transition-colors hover:text-cream">Privacy</Link>
+                  <Link href="/terms" className="text-cream/60 transition-colors hover:text-cream">Terms</Link>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 text-sm">
-            <div>
-              <p className="text-gold/60 tracking-widest uppercase text-xs mb-3">Platform</p>
-              <div className="flex flex-col gap-2">
-                <Link href="/lessons" className="text-cream/50 hover:text-cream transition-colors">Lessons</Link>
-                <Link href="/booking" className="text-cream/50 hover:text-cream transition-colors">Book a Session</Link>
-                <Link href="/pricing" className="text-cream/50 hover:text-cream transition-colors">Pricing</Link>
-              </div>
-            </div>
-            <div>
-              <p className="text-gold/60 tracking-widest uppercase text-xs mb-3">Account</p>
-              <div className="flex flex-col gap-2">
-                <Link href="/login" className="text-cream/50 hover:text-cream transition-colors">Sign In</Link>
-                <Link href="/register" className="text-cream/50 hover:text-cream transition-colors">Register</Link>
-                <Link href="/dashboard" className="text-cream/50 hover:text-cream transition-colors">Dashboard</Link>
-              </div>
-            </div>
-            <div>
-              <p className="text-gold/60 tracking-widest uppercase text-xs mb-3">Legal</p>
-              <div className="flex flex-col gap-2">
-                <Link href="/privacy" className="text-cream/50 hover:text-cream transition-colors">Privacy</Link>
-                <Link href="/terms" className="text-cream/50 hover:text-cream transition-colors">Terms</Link>
-              </div>
-            </div>
+          <div className="mt-10 flex flex-col items-start justify-between gap-3 border-t border-white/10 pt-6 text-xs text-cream/40 sm:flex-row sm:items-center">
+            <p>© {new Date().getFullYear()} Maestro. All rights reserved.</p>
+            <p className="tracking-[0.25em] text-cream/30">PRELUDE · SONATA · SYMPHONY</p>
           </div>
-        </div>
-
-        <div className="mt-10 pt-6 border-t border-gold/10 flex flex-col sm:flex-row justify-between items-center gap-2 text-cream/30 text-xs">
-          <p>© {new Date().getFullYear()} Maestro. All rights reserved.</p>
-          <p className="tracking-widest">PRELUDE · SONATA · SYMPHONY</p>
         </div>
       </div>
     </footer>

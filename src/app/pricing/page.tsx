@@ -71,139 +71,147 @@ export default function PricingPage() {
   const { locale } = useLocale();
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-6">
-      {/* Header */}
-      <div className="text-center mb-12">
-        <p className="text-gold/60 tracking-[0.3em] uppercase text-xs mb-4">Plans</p>
-        <h1 className="font-display text-5xl md:text-6xl text-cream mb-4">
-          {locale === "el" ? "Βρείτε το Ιδανικό Πλάνο" : "Find Your Perfect Plan"}
-        </h1>
-        <p className="text-cream/50 text-lg">
-          {locale === "el"
-            ? "Ξεκινήστε δωρεάν, αναβαθμίστε όταν είστε έτοιμοι."
-            : "Start free, upgrade when you're ready."}
-        </p>
-
-        {/* Billing toggle */}
-        <div className="flex items-center justify-center gap-4 mt-8">
-          <span className={cn("text-sm", billing === "monthly" ? "text-cream" : "text-cream/40")}>
-            {locale === "el" ? "Μηνιαία" : "Monthly"}
-          </span>
-          <button
-            onClick={() => setBilling(billing === "monthly" ? "yearly" : "monthly")}
-            className={cn(
-              "relative w-14 h-7 border border-gold/30 transition-colors duration-300",
-              billing === "yearly" ? "bg-gold/20" : "bg-ink-50"
-            )}
-          >
-            <div
-              className={cn(
-                "absolute top-1 w-5 h-5 bg-gold transition-all duration-300",
-                billing === "yearly" ? "left-8" : "left-1"
-              )}
-            />
-          </button>
-          <span className={cn("text-sm flex items-center gap-2", billing === "yearly" ? "text-cream" : "text-cream/40")}>
-            {locale === "el" ? "Ετήσια" : "Yearly"}
-            <span className="bg-gold/20 text-gold text-xs px-2 py-0.5 border border-gold/30">
-              {locale === "el" ? "−20%" : "Save 20%"}
-            </span>
-          </span>
+    <div className="min-h-screen px-6 pb-20 pt-28">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-12 text-center">
+          <p className="mb-4 text-xs uppercase tracking-[0.3em] text-gold/75">Plans</p>
+          <h1 className="font-display text-5xl text-cream md:text-6xl">
+            {locale === "el" ? "Βρείτε το Ιδανικό Πλάνο" : "Find Your Perfect Plan"}
+          </h1>
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-cream/60">
+            {locale === "el"
+              ? "Ξεκινήστε δωρεάν και αναβαθμίστε μόνο όταν θέλετε περισσότερο βάθος."
+              : "Start free and upgrade only when you want more depth in your routine."}
+          </p>
         </div>
-      </div>
 
-      {/* Pricing Cards */}
-      <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-6">
-        {TIERS.map((tier) => {
-          const plan = PLANS[tier.key];
-          const price = billing === "monthly" ? plan.price.monthly : plan.price.yearly;
-          const monthlyEquiv = billing === "yearly" ? Math.round(plan.price.yearly / 12) : plan.price.monthly;
-          const features = locale === "el" ? tier.features_el : tier.features_en;
+        <div className="mb-8 rounded-[32px] border border-white/10 bg-white/5 p-5 backdrop-blur-sm md:p-6">
+          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+            <div>
+              <p className="text-sm text-cream/60">
+                {locale === "el"
+                  ? "Επιλέξτε χρέωση που ταιριάζει στον ρυθμό σας."
+                  : "Choose the billing rhythm that fits your schedule."}
+              </p>
+            </div>
 
-          return (
-            <div
-              key={tier.key}
-              className={cn(
-                "relative flex flex-col p-8 border transition-all duration-300",
-                tier.featured
-                  ? "border-gold bg-gold/5 gold-glow"
-                  : "border-gold/20 hover:border-gold/40"
-              )}
-            >
-              {tier.featured && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gold text-ink text-xs px-4 py-1 font-bold tracking-widest uppercase">
-                  {locale === "el" ? "Πιο Δημοφιλές" : "Most Popular"}
-                </div>
-              )}
-
-              <div className="mb-6">
-                <h2 className="font-display text-3xl text-cream mb-1">{plan.name}</h2>
-                <p className="text-cream/40 text-sm">
-                  {locale === "el"
-                    ? tier.key === "PRELUDE" ? "Ξεκινήστε το μουσικό σας ταξίδι"
-                    : tier.key === "SONATA" ? "Για τον αφοσιωμένο μαθητή"
-                    : "Για τον σοβαρό μουσικό"
-                    : tier.key === "PRELUDE" ? "Begin your musical journey"
-                    : tier.key === "SONATA" ? "For the dedicated student"
-                    : "For the serious musician"}
-                </p>
-              </div>
-
-              <div className="mb-8">
-                {price === 0 ? (
-                  <p className="font-display text-5xl text-cream">
-                    {locale === "el" ? "Δωρεάν" : "Free"}
-                  </p>
-                ) : (
-                  <div>
-                    <p className="font-display text-5xl text-cream">
-                      {formatPrice(billing === "yearly" ? monthlyEquiv : price)}
-                      <span className="text-lg text-cream/40 font-sans">/mo</span>
-                    </p>
-                    {billing === "yearly" && (
-                      <p className="text-cream/40 text-sm mt-1">
-                        {formatPrice(price)} {locale === "el" ? "ετησίως" : "billed yearly"}
-                      </p>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              <ul className="flex-1 space-y-3 mb-8">
-                {features.map((feature, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm text-cream/70">
-                    <Check size={14} className="text-gold mt-0.5 shrink-0" />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-
-              <Link
-                href={tier.key === "PRELUDE" ? "/register" : `/api/stripe/checkout?tier=${tier.key}&billing=${billing}`}
+            <div className="flex items-center gap-4 rounded-full border border-white/10 bg-ink/40 px-4 py-3">
+              <span className={cn("text-sm transition-colors", billing === "monthly" ? "text-cream" : "text-cream/40")}>
+                {locale === "el" ? "Μηνιαία" : "Monthly"}
+              </span>
+              <button
+                onClick={() => setBilling(billing === "monthly" ? "yearly" : "monthly")}
                 className={cn(
-                  "flex items-center justify-center gap-2 py-3 px-6 font-serif tracking-wide transition-all duration-200 text-sm",
-                  tier.featured
-                    ? "bg-gold text-ink hover:bg-gold-light"
-                    : "border border-gold/40 text-gold hover:bg-gold/10"
+                  "relative h-8 w-16 rounded-full border transition-colors duration-300",
+                  billing === "yearly" ? "border-gold/30 bg-gold/20" : "border-white/10 bg-white/5"
                 )}
               >
-                {locale === "el"
-                  ? tier.key === "PRELUDE" ? "Ξεκινήστε Δωρεάν" : "Αναβαθμίστε"
-                  : tier.key === "PRELUDE" ? "Get Started Free" : "Upgrade Now"}
-                <ArrowRight size={14} />
-              </Link>
+                <div
+                  className={cn(
+                    "absolute top-1 h-6 w-6 rounded-full bg-gold transition-all duration-300",
+                    billing === "yearly" ? "left-9" : "left-1"
+                  )}
+                />
+              </button>
+              <span className={cn("flex items-center gap-2 text-sm transition-colors", billing === "yearly" ? "text-cream" : "text-cream/40")}>
+                {locale === "el" ? "Ετήσια" : "Yearly"}
+                <span className="rounded-full border border-gold/25 bg-gold/10 px-2.5 py-1 text-xs text-gold">
+                  {locale === "el" ? "−20%" : "Save 20%"}
+                </span>
+              </span>
             </div>
-          );
-        })}
-      </div>
+          </div>
+        </div>
 
-      {/* FAQ stub */}
-      <div className="max-w-2xl mx-auto mt-20 text-center">
-        <p className="text-cream/30 text-sm">
+        <div className="grid gap-6 md:grid-cols-3">
+          {TIERS.map((tier) => {
+            const plan = PLANS[tier.key];
+            const price = billing === "monthly" ? plan.price.monthly : plan.price.yearly;
+            const monthlyEquiv = billing === "yearly" ? Math.round(plan.price.yearly / 12) : plan.price.monthly;
+            const features = locale === "el" ? tier.features_el : tier.features_en;
+
+            return (
+              <div
+                key={tier.key}
+                className={cn(
+                  "relative flex flex-col rounded-[32px] border p-8 transition-all duration-300 backdrop-blur-sm",
+                  tier.featured
+                    ? "border-gold/30 bg-gold/10 gold-glow md:-translate-y-2"
+                    : "border-white/10 bg-white/5 hover:border-gold/25"
+                )}
+              >
+                {tier.featured && (
+                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-gold px-4 py-1 text-xs font-bold uppercase tracking-widest text-ink">
+                    {locale === "el" ? "Πιο Δημοφιλές" : "Most Popular"}
+                  </div>
+                )}
+
+                <div className="mb-6">
+                  <h2 className="mb-1 font-display text-3xl text-cream">{plan.name}</h2>
+                  <p className="text-sm text-cream/40">
+                    {locale === "el"
+                      ? tier.key === "PRELUDE" ? "Ξεκινήστε το μουσικό σας ταξίδι"
+                      : tier.key === "SONATA" ? "Για τον αφοσιωμένο μαθητή"
+                      : "Για τον σοβαρό μουσικό"
+                      : tier.key === "PRELUDE" ? "Begin your musical journey"
+                      : tier.key === "SONATA" ? "For the dedicated student"
+                      : "For the serious musician"}
+                  </p>
+                </div>
+
+                <div className="mb-8">
+                  {price === 0 ? (
+                    <p className="font-display text-5xl text-cream">
+                      {locale === "el" ? "Δωρεάν" : "Free"}
+                    </p>
+                  ) : (
+                    <div>
+                      <p className="font-display text-5xl text-cream">
+                        {formatPrice(billing === "yearly" ? monthlyEquiv : price)}
+                        <span className="font-sans text-lg text-cream/40">/mo</span>
+                      </p>
+                      {billing === "yearly" && (
+                        <p className="mt-1 text-sm text-cream/40">
+                          {formatPrice(price)} {locale === "el" ? "ετησίως" : "billed yearly"}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                <ul className="mb-8 flex-1 space-y-3">
+                  {features.map((feature, i) => (
+                    <li key={i} className="flex items-start gap-3 text-sm text-cream/70">
+                      <Check size={14} className="mt-0.5 shrink-0 text-gold" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+
+                <Link
+                  href={tier.key === "PRELUDE" ? "/register" : `/api/stripe/checkout?tier=${tier.key}&billing=${billing}`}
+                  className={cn(
+                    "flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-display transition-all duration-200",
+                    tier.featured
+                      ? "bg-gold text-ink hover:bg-gold-light"
+                      : "border border-white/10 bg-white/5 text-cream hover:border-gold/25 hover:bg-white/10"
+                  )}
+                >
+                  {locale === "el"
+                    ? tier.key === "PRELUDE" ? "Ξεκινήστε Δωρεάν" : "Αναβαθμίστε"
+                    : tier.key === "PRELUDE" ? "Get Started Free" : "Upgrade Now"}
+                  <ArrowRight size={14} />
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="mx-auto mt-14 max-w-2xl rounded-[28px] border border-white/10 bg-white/5 px-6 py-5 text-center text-sm text-cream/40 backdrop-blur-sm">
           {locale === "el"
-            ? "Έχετε ερωτήσεις; Επικοινωνήστε μαζί μας."
-            : "Have questions? Contact us anytime."}
-        </p>
+            ? "Έχετε ερωτήσεις; Επικοινωνήστε μαζί μας και θα σας βοηθήσουμε να διαλέξετε το σωστό πλάνο."
+            : "Have questions? Contact us and we’ll help you choose the plan that actually fits."}
+        </div>
       </div>
     </div>
   );

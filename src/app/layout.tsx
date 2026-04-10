@@ -1,20 +1,21 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Cormorant_Garamond } from "next/font/google";
+import { Manrope, Sora } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 
-const playfair = Playfair_Display({
+const sora = Sora({
   subsets: ["latin", "latin-ext"],
-  variable: "--font-playfair",
+  variable: "--font-sora",
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
-const cormorant = Cormorant_Garamond({
+const manrope = Manrope({
   subsets: ["latin", "latin-ext"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-cormorant",
+  variable: "--font-manrope",
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -30,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${playfair.variable} ${cormorant.variable}`}>
+    <html lang="en" className={`${sora.variable} ${manrope.variable}`}>
       <body className="bg-ink text-cream font-sans antialiased">
         <Providers>
           <Navbar />

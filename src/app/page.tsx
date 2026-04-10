@@ -1,181 +1,238 @@
 import Link from "next/link";
-import { Music, Video, Calendar, BarChart3, Sparkles, ArrowRight, Play } from "lucide-react";
+import {
+  ArrowRight,
+  BarChart3,
+  Calendar,
+  Headphones,
+  Play,
+  Sparkles,
+  Video,
+  Waves,
+} from "lucide-react";
+
+const features = [
+  {
+    icon: Video,
+    title: "Video lessons that stay clear and focused",
+    desc: "Short, structured sessions you can revisit on any device without losing momentum.",
+  },
+  {
+    icon: Calendar,
+    title: "Live coaching when you need feedback",
+    desc: "Book 1-on-1 sessions around your week and keep lessons connected to your actual goals.",
+  },
+  {
+    icon: BarChart3,
+    title: "Progress that feels measurable",
+    desc: "Track practice, milestones, and streaks in one place instead of scattered notes.",
+  },
+  {
+    icon: Sparkles,
+    title: "Smart AI feedback between lessons",
+    desc: "Get fast notes on timing, clarity, and consistency before the next live session.",
+  },
+];
+
+const plans = [
+  { name: "Prelude", price: "Free", desc: "A light start for new students." },
+  { name: "Sonata", price: "€14.99/mo", desc: "The balanced plan for steady growth.", featured: true },
+  { name: "Symphony", price: "€29.99/mo", desc: "Full access for serious practice." },
+];
 
 export default function HomePage() {
   return (
     <div className="min-h-screen">
-      {/* Hero */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden staff-lines">
-        {/* Background orbs */}
+      <section className="relative overflow-hidden px-6 pb-20 pt-32 staff-lines">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gold/5 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-burgundy/20 rounded-full blur-3xl" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/3 rounded-full blur-[100px]" />
+          <div className="absolute left-[8%] top-24 h-72 w-72 rounded-full bg-gold/10 blur-3xl" />
+          <div className="absolute right-[12%] top-32 h-64 w-64 rounded-full bg-burgundy/20 blur-3xl" />
+          <div className="absolute bottom-12 left-1/2 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-gold/5 blur-[120px]" />
         </div>
 
-        {/* Decorative vertical lines */}
-        <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-gold/20 to-transparent hidden lg:block" />
-        <div className="absolute right-8 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-gold/20 to-transparent hidden lg:block" />
+        <div className="relative z-10 mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          <div className="max-w-3xl">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-cream/75 backdrop-blur-sm animate-fade-in">
+              <Waves size={14} className="text-gold" />
+              <span>Modern online music learning, designed for consistency</span>
+            </div>
 
-        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-          {/* Eyebrow */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 border border-gold/30 text-gold/80 text-sm tracking-[0.2em] uppercase mb-8 animate-fade-in">
-            <Music size={14} />
-            <span>Online Music Academy</span>
+            <h1 className="font-display text-5xl leading-[1.02] text-cream md:text-7xl lg:text-[5.5rem] animate-slide-up">
+              Learn music in a space that feels
+              {" "}
+              <span className="text-gradient-gold">clear, calm, and current.</span>
+            </h1>
+
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-cream/70 md:text-xl animate-slide-up animate-delay-100">
+              Structured lessons, live coaching, and thoughtful progress tracking in one softer, more focused experience.
+            </p>
+
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row animate-slide-up animate-delay-200">
+              <Link href="/register" className="btn-primary px-8 py-4 text-base">
+                Start Learning
+                <ArrowRight size={18} />
+              </Link>
+              <Link href="/lessons" className="btn-secondary px-8 py-4 text-base">
+                <Play size={18} />
+                Browse Lessons
+              </Link>
+            </div>
+
+            <div className="mt-14 grid gap-4 sm:grid-cols-3 animate-fade-in animate-delay-300">
+              {[
+                { value: "500+", label: "Video lessons" },
+                { value: "50+", label: "Expert teachers" },
+                { value: "10k+", label: "Sessions completed" },
+              ].map((stat) => (
+                <div key={stat.label} className="rounded-3xl border border-white/10 bg-white/5 px-5 py-5 backdrop-blur-sm">
+                  <p className="font-display text-3xl text-cream">{stat.value}</p>
+                  <p className="mt-1 text-sm text-cream/50">{stat.label}</p>
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Title */}
-          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl text-cream leading-[1.05] mb-6 animate-slide-up">
-            Master Your{" "}
-            <span className="text-gradient-gold italic">Music</span>
-          </h1>
-
-          {/* Subtitle */}
-          <p className="text-cream/60 text-lg md:text-xl font-sans leading-relaxed max-w-2xl mx-auto mb-10 animate-slide-up animate-delay-100">
-            Professional music lessons, online and on demand. From your first note to your finest performance.
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up animate-delay-200">
-            <Link href="/register" className="btn-primary text-lg px-8 py-4">
-              Start Learning <ArrowRight size={18} />
-            </Link>
-            <Link href="/lessons" className="btn-secondary text-lg px-8 py-4">
-              <Play size={18} /> Browse Lessons
-            </Link>
-          </div>
-
-          {/* Social proof */}
-          <div className="mt-16 flex flex-wrap justify-center gap-8 text-cream/40 text-sm tracking-widest uppercase animate-fade-in animate-delay-400">
-            <div className="flex flex-col items-center gap-1">
-              <span className="text-gold font-display text-3xl">500+</span>
-              <span>Video Lessons</span>
+          <div className="glass rounded-[32px] p-6 md:p-8 animate-fade-in animate-delay-200">
+            <div className="mb-6 flex items-center justify-between">
+              <div>
+                <p className="text-xs uppercase tracking-[0.28em] text-gold/75">This week&apos;s studio</p>
+                <h2 className="mt-2 font-display text-2xl text-cream">A smoother rhythm for practice</h2>
+              </div>
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-gold">
+                <Headphones size={20} />
+              </div>
             </div>
-            <div className="w-px h-10 bg-gold/20 hidden sm:block self-center" />
-            <div className="flex flex-col items-center gap-1">
-              <span className="text-gold font-display text-3xl">50+</span>
-              <span>Expert Teachers</span>
+
+            <div className="rounded-[28px] border border-white/10 bg-white/5 p-5">
+              <div className="flex items-center justify-between text-sm text-cream/60">
+                <span>Practice flow</span>
+                <span className="rounded-full border border-gold/25 bg-gold/10 px-3 py-1 text-xs text-gold">
+                  +18% this month
+                </span>
+              </div>
+
+              <div className="mt-5 space-y-4">
+                {[
+                  { label: "Watch a lesson", width: "w-[88%]" },
+                  { label: "Log your session", width: "w-[72%]" },
+                  { label: "Get AI notes", width: "w-[58%]" },
+                ].map((item) => (
+                  <div key={item.label}>
+                    <div className="mb-2 flex items-center justify-between text-sm text-cream/70">
+                      <span>{item.label}</span>
+                      <span>ready</span>
+                    </div>
+                    <div className="h-2 rounded-full bg-white/10">
+                      <div className={`h-full rounded-full bg-gradient-to-r from-gold to-gold-dark ${item.width}`} />
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="w-px h-10 bg-gold/20 hidden sm:block self-center" />
-            <div className="flex flex-col items-center gap-1">
-              <span className="text-gold font-display text-3xl">10k+</span>
-              <span>Students</span>
+
+            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-[28px] border border-white/10 bg-white/5 p-5">
+                <p className="text-sm text-cream/60">Focus</p>
+                <p className="mt-2 font-display text-3xl text-cream">92%</p>
+                <p className="mt-2 text-sm text-cream/40">Shorter sessions, less friction, better follow-through.</p>
+              </div>
+              <div className="rounded-[28px] border border-white/10 bg-white/5 p-5">
+                <p className="text-sm text-cream/60">Weekly tempo</p>
+                <p className="mt-2 font-display text-3xl text-cream">4.8h</p>
+                <p className="mt-2 text-sm text-cream/40">A calm structure that still keeps momentum visible.</p>
+              </div>
             </div>
           </div>
         </div>
-
-        {/* Bottom fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-ink to-transparent" />
       </section>
 
-      {/* Features */}
-      <section className="py-24 px-6">
+      <section className="px-6 py-24">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <p className="text-gold/60 tracking-[0.3em] uppercase text-xs mb-4">Why Choose Us</p>
+            <p className="mb-4 text-xs uppercase tracking-[0.3em] text-gold/75">Why students stay</p>
             <h2 className="section-title">
-              Everything you need to grow<br />
-              <span className="text-gradient-gold italic">as a musician</span>
+              The essentials, without the visual noise
             </h2>
+            <p className="mx-auto mt-5 max-w-2xl text-lg text-cream/60">
+              Every part of the experience is designed to feel lighter, faster, and easier to return to every day.
+            </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                icon: Video,
-                title: "Video Lessons",
-                desc: "Stream high-quality lessons on any device, at your own pace.",
-              },
-              {
-                icon: Calendar,
-                title: "Live 1-on-1 Sessions",
-                desc: "Book personal sessions with expert teachers that fit your schedule.",
-              },
-              {
-                icon: BarChart3,
-                title: "Track Your Progress",
-                desc: "Log your practice sessions and watch yourself improve over time.",
-              },
-              {
-                icon: Sparkles,
-                title: "AI Feedback",
-                desc: "Upload recordings and receive instant, intelligent feedback on your playing.",
-              },
-            ].map((feature, i) => (
+            {features.map((feature, i) => (
               <div
                 key={i}
                 className="card-dark group cursor-default"
                 style={{ animationDelay: `${i * 100}ms` }}
               >
-                <div className="w-12 h-12 border border-gold/30 flex items-center justify-center mb-4 group-hover:bg-gold/10 transition-colors duration-300">
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 transition-colors duration-300 group-hover:border-gold/25 group-hover:bg-gold/10">
                   <feature.icon size={20} className="text-gold" />
                 </div>
-                <h3 className="font-display text-xl text-cream mb-3">{feature.title}</h3>
-                <p className="text-cream/50 text-sm leading-relaxed">{feature.desc}</p>
+                <h3 className="mb-3 font-display text-xl text-cream">{feature.title}</h3>
+                <p className="text-sm leading-relaxed text-cream/60">{feature.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Tiers Preview */}
-      <section className="py-24 px-6 bg-ink-50">
-        <div className="max-w-6xl mx-auto text-center">
-          <p className="text-gold/60 tracking-[0.3em] uppercase text-xs mb-4">Subscription Plans</p>
-          <h2 className="section-title mb-4">
-            Find Your Perfect Plan
-          </h2>
-          <p className="text-cream/50 text-lg mb-12 max-w-xl mx-auto">
-            Start free with Prelude, grow into Sonata, and master your craft with Symphony.
-          </p>
+      <section className="px-6 pb-24">
+        <div className="max-w-6xl mx-auto rounded-[36px] border border-white/10 bg-white/5 p-6 backdrop-blur-sm md:p-10">
+          <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="mb-4 text-xs uppercase tracking-[0.3em] text-gold/75">Subscription plans</p>
+              <h2 className="section-title">A simple ladder from free to full access</h2>
+            </div>
+            <p className="max-w-xl text-cream/60">
+              Start with a free entry point, then move into deeper practice support only when you need it.
+            </p>
+          </div>
 
-          <div className="flex justify-center gap-4 flex-wrap mb-8">
-            {[
-              { name: "Prelude", price: "Free", desc: "Begin your journey" },
-              { name: "Sonata", price: "€14.99/mo", desc: "For the dedicated student", featured: true },
-              { name: "Symphony", price: "€29.99/mo", desc: "For the serious musician" },
-            ].map((plan) => (
+          <div className="grid gap-5 md:grid-cols-3">
+            {plans.map((plan) => (
               <div
                 key={plan.name}
-                className={`relative p-8 border min-w-[200px] transition-all duration-300 ${
+                className={`relative rounded-[30px] p-8 border transition-all duration-300 ${
                   plan.featured
-                    ? "border-gold bg-gold/5 gold-glow scale-105"
-                    : "border-gold/20 hover:border-gold/40"
+                    ? "border-gold/30 bg-gold/10 gold-glow md:-translate-y-2"
+                    : "border-white/10 bg-ink-50/40 hover:border-gold/25"
                 }`}
               >
                 {plan.featured && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold text-ink text-xs px-3 py-1 font-semibold tracking-wider uppercase">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gold px-3 py-1 text-xs font-semibold uppercase tracking-wider text-ink">
                     Most Popular
                   </div>
                 )}
-                <p className="font-display text-2xl text-cream mb-1">{plan.name}</p>
-                <p className="text-gold text-xl font-semibold mb-2">{plan.price}</p>
-                <p className="text-cream/40 text-sm">{plan.desc}</p>
+
+                <p className="mb-2 font-display text-2xl text-cream">{plan.name}</p>
+                <p className="mb-3 text-3xl font-semibold text-cream">{plan.price}</p>
+                <p className="text-sm text-cream/50">{plan.desc}</p>
               </div>
             ))}
           </div>
 
-          <Link href="/pricing" className="btn-secondary mt-4 inline-flex">
+          <Link href="/pricing" className="btn-secondary mt-8 inline-flex">
             View Full Pricing <ArrowRight size={16} />
           </Link>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-32 px-6 relative overflow-hidden">
+      <section className="relative overflow-hidden px-6 pb-28">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gold/5 rounded-full blur-3xl" />
+          <div className="absolute left-1/2 top-1/2 h-[24rem] w-[48rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/10 blur-3xl" />
         </div>
-        <div className="relative z-10 max-w-3xl mx-auto text-center">
+        <div className="relative z-10 mx-auto max-w-5xl overflow-hidden rounded-[36px] border border-white/10 bg-white/5 px-8 py-14 text-center backdrop-blur-sm md:px-14 md:py-16">
+          <p className="mb-4 text-xs uppercase tracking-[0.3em] text-gold/75">Ready to begin</p>
           <h2 className="section-title mb-6">
-            Ready to begin your<br />
-            <span className="text-gradient-gold italic">musical journey?</span>
+            Build a music routine that feels motivating,
+            {" "}
+            <span className="text-gradient-gold">not heavy.</span>
           </h2>
-          <p className="text-cream/50 text-lg mb-10">
-            Join thousands of students who are mastering their craft with expert guidance.
+          <p className="mx-auto mb-10 max-w-2xl text-lg text-cream/60">
+            Join a calmer learning flow with clear lessons, flexible live sessions, and progress that stays visible.
           </p>
-          <Link href="/register" className="btn-primary text-lg px-10 py-5">
-            Start Free Today <ArrowRight size={18} />
+          <Link href="/register" className="btn-primary px-10 py-5 text-base">
+            Start Free Today
+            <ArrowRight size={18} />
           </Link>
         </div>
       </section>

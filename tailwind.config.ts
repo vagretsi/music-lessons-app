@@ -9,33 +9,33 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        serif: ["Playfair Display", "Georgia", "serif"],
-        sans: ["Cormorant Garamond", "Garamond", "serif"],
+        serif: ["var(--font-sora)", "sans-serif"],
+        sans: ["var(--font-manrope)", "sans-serif"],
         mono: ["JetBrains Mono", "monospace"],
-        display: ["Playfair Display", "serif"],
+        display: ["var(--font-sora)", "sans-serif"],
       },
       colors: {
         ink: {
-          DEFAULT: "#0D0B0A",
-          50: "#1A1614",
-          100: "#231E1B",
-          200: "#2E2822",
+          DEFAULT: "#0F172A",
+          50: "#162033",
+          100: "#1D2940",
+          200: "#273654",
         },
         gold: {
-          DEFAULT: "#C9A84C",
-          light: "#E4C97B",
-          dark: "#A6872E",
-          muted: "#8B7040",
+          DEFAULT: "#7DD3FC",
+          light: "#BAE6FD",
+          dark: "#38BDF8",
+          muted: "#5D8FB2",
         },
         cream: {
-          DEFAULT: "#F5EDD8",
-          dark: "#E8D9B8",
-          light: "#FAF5EC",
+          DEFAULT: "#E5EEF9",
+          dark: "#C7D3E5",
+          light: "#F8FBFF",
         },
         burgundy: {
-          DEFAULT: "#6B2737",
-          light: "#8B3748",
-          dark: "#4A1B26",
+          DEFAULT: "#F59E8B",
+          light: "#FECACA",
+          dark: "#DD7B69",
         },
       },
       backgroundImage: {
@@ -46,6 +46,7 @@ const config: Config = {
         "fade-in": "fadeIn 0.6s ease-out forwards",
         "slide-up": "slideUp 0.7s ease-out forwards",
         "shimmer": "shimmer 2s infinite",
+        "float-slow": "floatSlow 8s ease-in-out infinite",
       },
       keyframes: {
         fadeIn: {
@@ -59,6 +60,10 @@ const config: Config = {
         shimmer: {
           "0%": { backgroundPosition: "-200% 0" },
           "100%": { backgroundPosition: "200% 0" },
+        },
+        floatSlow: {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-10px)" },
         },
       },
     },
