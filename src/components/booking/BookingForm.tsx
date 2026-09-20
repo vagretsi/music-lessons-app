@@ -11,7 +11,8 @@ interface Teacher {
   id: string;
   user: { name: string; image?: string };
   instruments: string[];
-  bio?: string;
+  bio?: string | null;
+  bioEl?: string | null;
   availability: { dayOfWeek: number; startTime: string; endTime: string }[];
 }
 
@@ -98,7 +99,11 @@ export function BookingForm({ teachers, userId }: { teachers: Teacher[]; userId:
           <p className="text-cream/40">Δεν υπάρχουν διαθέσιμοι καθηγητές αυτή τη στιγμή.</p>
         ) : (
           <div className="grid md:grid-cols-2 gap-4">
-            {teachers.map((teacher) => (
+            {teachers.map((teacher) => {
+              const bio = locale === "el"
+                ? teacher.bioEl?.trim() || teacher.bio?.trim()
+                : teacher.bio?.trim() || teacher.bioEl?.trim();
+              return (
               <button
                 key={teacher.id}
                 type="button"
@@ -118,7 +123,7 @@ export function BookingForm({ teachers, userId }: { teachers: Teacher[]; userId:
                     <p className="text-cream/40 text-xs">{teacher.instruments.map(i => instrumentLabel(i, locale)).join(", ")}</p>
                   </div>
                 </div>
-                {teacher.bio && <p className="text-cream/40 text-sm line-clamp-2">{teacher.bio}</p>}
+                {bio && <p className="text-cream/40 text-sm line-clamp-2">{bio}</p>}
                 <div className="mt-3 flex flex-wrap gap-1">
                   {teacher.availability.map((a) => (
                     <span key={a.dayOfWeek} className="text-gold/50 text-xs border border-gold/20 px-2 py-0.5">
@@ -127,7 +132,7 @@ export function BookingForm({ teachers, userId }: { teachers: Teacher[]; userId:
                   ))}
                 </div>
               </button>
-            ))}
+            ); })}
           </div>
         )}
       </div>
