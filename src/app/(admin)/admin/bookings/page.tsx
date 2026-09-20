@@ -1,3 +1,4 @@
+import { TIME_ZONE } from "@/lib/availability";
 import { prisma } from "@/lib/prisma";
 import { Calendar } from "lucide-react";
 
@@ -54,11 +55,11 @@ export default async function AdminBookingsPage() {
                   </td>
                   <td className="px-6 py-4 text-cream/60 text-sm">{booking.teacher.name}</td>
                   <td className="px-6 py-4 text-cream/60 text-sm">
-                    {new Date(booking.scheduledAt).toLocaleDateString("en-GB", {
+                    {new Date(booking.scheduledAt).toLocaleDateString("en-GB", { timeZone: TIME_ZONE, hour12: false,
                       weekday: "short", day: "numeric", month: "short", year: "numeric",
                     })}
                     <span className="block text-cream/30 text-xs">
-                      {new Date(booking.scheduledAt).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}
+                      {new Date(booking.scheduledAt).toLocaleTimeString("en-GB", { timeZone: TIME_ZONE, hour12: false, hour: "2-digit", minute: "2-digit" })}
                     </span>
                   </td>
                   <td className="px-6 py-4 text-cream/60 text-sm">{booking.duration} min</td>

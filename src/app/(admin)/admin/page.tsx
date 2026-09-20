@@ -1,3 +1,4 @@
+import { TIME_ZONE } from "@/lib/availability";
 import { prisma } from "@/lib/prisma";
 import { Users, Video, Calendar, CreditCard, TrendingUp } from "lucide-react";
 
@@ -91,7 +92,7 @@ export default async function AdminPage() {
                   <div className="flex-1 min-w-0">
                     <p className="text-cream text-sm">{booking.student.name} → {booking.teacher.name}</p>
                     <p className="text-cream/40 text-xs">
-                      {new Date(booking.scheduledAt).toLocaleDateString("en-GB", {
+                      {new Date(booking.scheduledAt).toLocaleDateString("en-GB", { timeZone: TIME_ZONE, hour12: false,
                         day: "numeric", month: "short", year: "numeric",
                         hour: "2-digit", minute: "2-digit",
                       })}

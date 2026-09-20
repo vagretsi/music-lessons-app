@@ -21,3 +21,12 @@ assert.equal(isAvailable(athensDate('2026-09-21', '09:30'), []), false);
 assert.throws(() => athensDate('2026-03-29', '03:30'));
 assert.deepEqual(athensParts(athensDate('2026-10-25', '03:30')), { date: '2026-10-25', time: '03:30' });
 console.log('Availability validation, slot boundaries, weekdays and Athens timezone checks passed.');
+
+// Booking displays must not depend on the VPS timezone.
+for (const timezone of ['UTC', 'America/New_York', 'Europe/Athens']) {
+  process.env.TZ = timezone;
+  for (const [instant, expected] of [['2026-09-21T16:00:00Z', '19:00'], ['2026-01-05T17:00:00Z', '19:00']]) {
+    assert.equal(new Date(instant).toLocaleTimeString('el-GR', { timeZone: lib.exports.TIME_ZONE, hour12: false, hour: '2-digit', minute: '2-digit' }), expected);
+  }
+}
+console.log('19:00 booking display passed for summer and winter across three server timezones.');

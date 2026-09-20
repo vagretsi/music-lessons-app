@@ -1,3 +1,4 @@
+import { TIME_ZONE } from "@/lib/availability";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
@@ -101,7 +102,7 @@ export default async function DashboardPage() {
                     <div>
                       <p className="text-cream text-sm">Με {booking.teacher.name}</p>
                       <p className="text-cream/40 text-xs">
-                        {new Date(booking.scheduledAt).toLocaleDateString("el-GR", {
+                        {new Date(booking.scheduledAt).toLocaleDateString("el-GR", { timeZone: TIME_ZONE, hour12: false,
                           weekday: "short", day: "numeric", month: "short",
                           hour: "2-digit", minute: "2-digit",
                         })}
