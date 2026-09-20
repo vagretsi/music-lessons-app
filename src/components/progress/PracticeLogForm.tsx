@@ -1,16 +1,16 @@
 "use client";
 
+import { INSTRUMENTS as instrumentOptions, instrumentLabel } from "@/lib/instruments";
+import { useLocale } from "@/app/providers";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
-const INSTRUMENTS = [
-  "Guitar", "Piano", "Bass", "Drums", "Violin", "Cello",
-  "Trumpet", "Saxophone", "Voice", "Ukulele", "Other"
-];
+const INSTRUMENTS = [...instrumentOptions, "Other"];
 
 export function PracticeLogForm() {
   const router = useRouter();
+  const { locale } = useLocale();
   const [instrument, setInstrument] = useState("");
   const [duration, setDuration] = useState("");
   const [mood, setMood] = useState(3);
@@ -67,7 +67,7 @@ export function PracticeLogForm() {
         >
           <option value="">Select instrument...</option>
           {INSTRUMENTS.map((i) => (
-            <option key={i} value={i}>{i}</option>
+            <option key={i} value={i}>{instrumentLabel(i, locale)}</option>
           ))}
         </select>
       </div>

@@ -1,5 +1,7 @@
 "use client";
 
+import { useLocale } from "@/app/providers";
+import { INSTRUMENTS as INSTRUMENTS_LIST, instrumentLabel } from "@/lib/instruments";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Save, Plus, X } from "lucide-react";
@@ -11,10 +13,11 @@ interface User {
 }
 
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const INSTRUMENTS_LIST = ["Guitar", "Piano", "Bass", "Drums", "Violin", "Cello", "Trumpet", "Saxophone", "Voice", "Ukulele"];
 
 export function TeacherForm({ users }: { users: User[] }) {
   const router = useRouter();
+  const { locale } = useLocale();
+  const el = locale === "el";
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -91,7 +94,7 @@ export function TeacherForm({ users }: { users: User[] }) {
       )}
 
       <div>
-        <label className="block text-cream/60 text-xs tracking-widest uppercase mb-2">User Account *</label>
+        <label className="block text-cream/60 text-xs tracking-widest uppercase mb-2">{el ? "Λογαριασμός χρήστη *" : "User Account *"}</label>
         <select
           value={form.userId}
           onChange={(e) => setForm((prev) => ({ ...prev, userId: e.target.value }))}
@@ -102,12 +105,12 @@ export function TeacherForm({ users }: { users: User[] }) {
             <option key={u.id} value={u.id}>{u.name} ({u.email})</option>
           ))}
         </select>
-        <p className="text-cream/20 text-xs mt-1">Only users with TEACHER role appear here.</p>
+        <p className="text-cream/20 text-xs mt-1">{el ? "Εμφανίζονται μόνο χρήστες με ρόλο καθηγητή." : "Only users with TEACHER role appear here."}</p>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-cream/60 text-xs tracking-widest uppercase mb-2">Bio (EN)</label>
+          <label className="block text-cream/60 text-xs tracking-widest uppercase mb-2">{el ? "Βιογραφικό (Αγγλικά)" : "Bio (EN)"}</label>
           <textarea
             value={form.bio}
             onChange={(e) => setForm((prev) => ({ ...prev, bio: e.target.value }))}
@@ -116,7 +119,7 @@ export function TeacherForm({ users }: { users: User[] }) {
           />
         </div>
         <div>
-          <label className="block text-cream/60 text-xs tracking-widest uppercase mb-2">Bio (ΕΛ)</label>
+          <label className="block text-cream/60 text-xs tracking-widest uppercase mb-2">{el ? "Βιογραφικό (Ελληνικά)" : "Bio (ΕΛ)"}</label>
           <textarea
             value={form.bioEl}
             onChange={(e) => setForm((prev) => ({ ...prev, bioEl: e.target.value }))}
@@ -127,7 +130,7 @@ export function TeacherForm({ users }: { users: User[] }) {
       </div>
 
       <div>
-        <label className="block text-cream/60 text-xs tracking-widest uppercase mb-2">Years of Experience</label>
+        <label className="block text-cream/60 text-xs tracking-widest uppercase mb-2">{el ? "Χρόνια εμπειρίας" : "Years of Experience"}</label>
         <input
           type="number"
           value={form.experience}
@@ -140,11 +143,11 @@ export function TeacherForm({ users }: { users: User[] }) {
 
       {/* Instruments */}
       <div>
-        <label className="block text-cream/60 text-xs tracking-widest uppercase mb-2">Instruments</label>
+        <label className="block text-cream/60 text-xs tracking-widest uppercase mb-2">{el ? "Όργανα" : "Instruments"}</label>
         <div className="flex flex-wrap gap-2 mb-3">
           {form.instruments.map((i) => (
             <span key={i} className="flex items-center gap-1 border border-gold/30 text-gold text-xs px-3 py-1">
-              {i}
+              {instrumentLabel(i, locale)}
               <button type="button" onClick={() => removeInstrument(i)}>
                 <X size={10} />
               </button>
@@ -157,13 +160,13 @@ export function TeacherForm({ users }: { users: User[] }) {
             onChange={(e) => setNewInstrument(e.target.value)}
             className="input-field max-w-xs"
           >
-            <option value="">Select instrument...</option>
+            <option value="">{el ? "Επίλεξε όργανο..." : "Select instrument..."}</option>
             {INSTRUMENTS_LIST.filter((i) => !form.instruments.includes(i)).map((i) => (
-              <option key={i} value={i}>{i}</option>
+              <option key={i} value={i}>{instrumentLabel(i, locale)}</option>
             ))}
           </select>
           <button type="button" onClick={() => addInstrument(newInstrument)} className="btn-secondary px-4 py-2 text-sm">
-            <Plus size={14} /> Add
+            <Plus size={14} /> {el ? "Προσθήκη" : "Add"}
           </button>
         </div>
       </div>
@@ -171,9 +174,9 @@ export function TeacherForm({ users }: { users: User[] }) {
       {/* Availability */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <label className="text-cream/60 text-xs tracking-widest uppercase">Availability</label>
+          <label className="text-cream/60 text-xs tracking-widest uppercase">{el ? "Διαθεσιμότητα" : "Availability"}</label>
           <button type="button" onClick={addAvailability} className="btn-secondary text-xs py-1.5 px-3">
-            <Plus size={12} /> Add Day
+            <Plus size={12} /> {el ? "Προσθήκη ημέρας" : "Add Day"}
           </button>
         </div>
         <div className="space-y-3">
@@ -184,7 +187,7 @@ export function TeacherForm({ users }: { users: User[] }) {
                 onChange={(e) => updateAvailability(i, "dayOfWeek", parseInt(e.target.value))}
                 className="input-field flex-1"
               >
-                {DAYS.map((day, idx) => <option key={idx} value={idx}>{day}</option>)}
+                {DAYS.map((day, idx) => <option key={idx} value={idx}>{el ? ["Κυριακή", "Δευτέρα", "Τρίτη", "Τετάρτη", "Πέμπτη", "Παρασκευή", "Σάββατο"][idx] : day}</option>)}
               </select>
               <input
                 type="time"
@@ -192,7 +195,7 @@ export function TeacherForm({ users }: { users: User[] }) {
                 onChange={(e) => updateAvailability(i, "startTime", e.target.value)}
                 className="input-field w-32"
               />
-              <span className="text-cream/40 text-sm">to</span>
+              <span className="text-cream/40 text-sm">{el ? "έως" : "to"}</span>
               <input
                 type="time"
                 value={slot.endTime}
@@ -205,17 +208,17 @@ export function TeacherForm({ users }: { users: User[] }) {
             </div>
           ))}
           {availability.length === 0 && (
-            <p className="text-cream/20 text-sm">No availability set. Students won't be able to book this teacher.</p>
+            <p className="text-cream/20 text-sm">{el ? "Πρόσθεσε διαθέσιμες ημέρες και ώρες για να μπορούν οι μαθητές να κλείσουν μάθημα." : "No availability set. Students cannot book this teacher yet."}</p>
           )}
         </div>
       </div>
 
       <div className="flex gap-4">
         <button type="submit" disabled={loading} className="btn-primary py-3 px-8 disabled:opacity-50">
-          {loading ? <Loader2 size={18} className="animate-spin" /> : <><Save size={16} /> Create Teacher</>}
+          {loading ? <Loader2 size={18} className="animate-spin" /> : <><Save size={16} /> {el ? "Δημιουργία καθηγητή" : "Create Teacher"}</>}
         </button>
         <button type="button" onClick={() => router.back()} className="btn-secondary py-3 px-6">
-          Cancel
+          {el ? "Ακύρωση" : "Cancel"}
         </button>
       </div>
     </form>

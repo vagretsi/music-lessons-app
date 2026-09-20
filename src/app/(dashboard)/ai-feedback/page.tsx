@@ -1,5 +1,6 @@
 "use client";
 
+import { INSTRUMENTS as instrumentOptions, instrumentLabel } from "@/lib/instruments";
 import { useState } from "react";
 import { Sparkles, Upload, Loader2, Music } from "lucide-react";
 import { useLocale } from "@/app/providers";
@@ -12,7 +13,7 @@ export default function AIFeedbackPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const INSTRUMENTS = ["Guitar", "Piano", "Bass", "Drums", "Violin", "Violin", "Trumpet", "Voice", "Other"];
+  const INSTRUMENTS = [...instrumentOptions, "Other"];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,7 +60,7 @@ export default function AIFeedbackPage() {
               required
             >
               <option value="">Select your instrument...</option>
-              {INSTRUMENTS.map((i) => <option key={i} value={i}>{i}</option>)}
+              {INSTRUMENTS.map((i) => <option key={i} value={i}>{instrumentLabel(i, locale)}</option>)}
             </select>
           </div>
 

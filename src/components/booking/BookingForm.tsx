@@ -1,5 +1,7 @@
 "use client";
 
+import { useLocale } from "@/app/providers";
+import { instrumentLabel } from "@/lib/instruments";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Calendar, Clock, User, Loader2, CheckCircle2 } from "lucide-react";
@@ -30,6 +32,7 @@ function getTimeSlots(start: string, end: string): string[] {
 
 export function BookingForm({ teachers, userId }: { teachers: Teacher[]; userId: string }) {
   const router = useRouter();
+  const { locale } = useLocale();
   const [selectedTeacher, setSelectedTeacher] = useState<Teacher | null>(null);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
@@ -120,7 +123,7 @@ export function BookingForm({ teachers, userId }: { teachers: Teacher[]; userId:
                   </div>
                   <div>
                     <p className="text-cream font-medium">{teacher.user.name}</p>
-                    <p className="text-cream/40 text-xs">{teacher.instruments.join(", ")}</p>
+                    <p className="text-cream/40 text-xs">{teacher.instruments.map(i => instrumentLabel(i, locale)).join(", ")}</p>
                   </div>
                 </div>
                 {teacher.bio && <p className="text-cream/40 text-sm line-clamp-2">{teacher.bio}</p>}

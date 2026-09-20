@@ -1,11 +1,12 @@
 "use client";
 
+import { useLocale } from "@/app/providers";
+import { INSTRUMENTS as INSTRUMENTS_LIST, instrumentLabel } from "@/lib/instruments";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Save, Plus, X } from "lucide-react";
 
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const INSTRUMENTS_LIST = ["Guitar", "Piano", "Bass", "Drums", "Violin", "Cello", "Trumpet", "Saxophone", "Voice", "Ukulele"];
 
 interface Teacher {
   id: string;
@@ -19,6 +20,8 @@ interface Teacher {
 
 export function TeacherEditForm({ teacher }: { teacher: Teacher }) {
   const router = useRouter();
+  const { locale } = useLocale();
+  const el = locale === "el";
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
@@ -84,49 +87,49 @@ export function TeacherEditForm({ teacher }: { teacher: Teacher }) {
 
       <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-cream/60 text-xs tracking-widest uppercase mb-2">Bio (EN)</label>
+          <label className="block text-cream/60 text-xs tracking-widest uppercase mb-2">{el ? "Βιογραφικό (Αγγλικά)" : "Bio (EN)"}</label>
           <textarea value={form.bio} onChange={(e) => setForm((p) => ({ ...p, bio: e.target.value }))} className="input-field resize-none h-28" />
         </div>
         <div>
-          <label className="block text-cream/60 text-xs tracking-widest uppercase mb-2">Bio (ΕΛ)</label>
+          <label className="block text-cream/60 text-xs tracking-widest uppercase mb-2">{el ? "Βιογραφικό (Ελληνικά)" : "Bio (ΕΛ)"}</label>
           <textarea value={form.bioEl} onChange={(e) => setForm((p) => ({ ...p, bioEl: e.target.value }))} className="input-field resize-none h-28" />
         </div>
       </div>
 
       <div>
-        <label className="block text-cream/60 text-xs tracking-widest uppercase mb-2">Years of Experience</label>
+        <label className="block text-cream/60 text-xs tracking-widest uppercase mb-2">{el ? "Χρόνια εμπειρίας" : "Years of Experience"}</label>
         <input type="number" value={form.experience} onChange={(e) => setForm((p) => ({ ...p, experience: e.target.value }))} className="input-field max-w-xs" min="0" />
       </div>
 
       <div>
-        <label className="block text-cream/60 text-xs tracking-widest uppercase mb-2">Instruments</label>
+        <label className="block text-cream/60 text-xs tracking-widest uppercase mb-2">{el ? "Όργανα" : "Instruments"}</label>
         <div className="flex flex-wrap gap-2 mb-3">
           {form.instruments.map((i) => (
             <span key={i} className="flex items-center gap-1 border border-gold/30 text-gold text-xs px-3 py-1">
-              {i}
+              {instrumentLabel(i, locale)}
               <button type="button" onClick={() => removeInstrument(i)}><X size={10} /></button>
             </span>
           ))}
         </div>
         <div className="flex gap-2">
           <select value={newInstrument} onChange={(e) => setNewInstrument(e.target.value)} className="input-field max-w-xs">
-            <option value="">Add instrument...</option>
+            <option value="">{el ? "Επίλεξε όργανο..." : "Add instrument..."}</option>
             {INSTRUMENTS_LIST.filter((i) => !form.instruments.includes(i)).map((i) => (
-              <option key={i} value={i}>{i}</option>
+              <option key={i} value={i}>{instrumentLabel(i, locale)}</option>
             ))}
           </select>
           <button type="button" onClick={() => addInstrument(newInstrument)} className="btn-secondary px-4 py-2 text-sm">
-            <Plus size={14} /> Add
+            <Plus size={14} /> {el ? "Προσθήκη" : "Add"}
           </button>
         </div>
       </div>
 
       <div className="flex gap-4">
         <button type="submit" disabled={loading} className="btn-primary py-3 px-8 disabled:opacity-50">
-          {loading ? <Loader2 size={18} className="animate-spin" /> : <><Save size={16} /> Save Changes</>}
+          {loading ? <Loader2 size={18} className="animate-spin" /> : <><Save size={16} /> {el ? "Αποθήκευση αλλαγών" : "Save Changes"}</>}
         </button>
         <button type="button" onClick={() => router.push("/admin/teachers")} className="btn-secondary py-3 px-6">
-          Back
+          {el ? "Πίσω" : "Back"}
         </button>
       </div>
     </form>
