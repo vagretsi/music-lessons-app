@@ -1,20 +1,22 @@
 "use client";
 
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { ArrowUpRight, ArrowRight, Play, Calendar } from "lucide-react";
 import { useLocale } from "./providers";
 
 export default function HomePage() {
   const { locale } = useLocale();
+  const { status } = useSession();
   const el = locale === "el";
   return (
     <div className="home-shell">
       <section className="home-hero">
         <p className="eyebrow"><span className="status-dot" />{el ? "Ο δικός σου χώρος μουσικής" : "Your space for music"}</p>
-        <h1>{el ? <>Λιγότερη σκέψη.<br /><span>Περισσότερη μουσική.</span></> : <>Find your rhythm.<br /><span>Make it yours.</span></>}</h1>
+        <h1><span>{el ? "Περισσότερη μουσική." : "More music."}</span></h1>
         <div className="hero-bottom">
           <p>{el ? "Μαθήματα στον ρυθμό σου. Προσωπική καθοδήγηση όταν τη χρειάζεσαι. Όλα σε έναν χώρο." : "Lessons at your pace. Personal guidance when you need it. Everything in one place."}</p>
-          <Link href="/register" className="btn-primary">{el ? "Ξεκίνα εδώ" : "Get started"}<ArrowUpRight size={18} /></Link>
+          {status === "unauthenticated" && <Link href="/register" className="btn-primary">{el ? "Ξεκίνα εδώ" : "Get started"}<ArrowUpRight size={18} /></Link>}
         </div>
       </section>
       <section className="home-paths" aria-label={el ? "Μαθήματα και κρατήσεις" : "Lessons and bookings"}>
@@ -31,7 +33,7 @@ export default function HomePage() {
           <span className="path-link">{el ? "Κλείσε μάθημα" : "Book a session"}<ArrowRight size={16} /></span>
         </Link>
       </section>
-      <div className="home-note"><span>{el ? "Έχεις ήδη λογαριασμό;" : "Already a student?"}</span><Link href="/login">{el ? "Συνέχισε από εκεί που έμεινες" : "Pick up where you left off"}<ArrowRight size={16} /></Link></div>
+      {status === "unauthenticated" && <div className="home-note"><span>{el ? "Έχεις ήδη λογαριασμό;" : "Already a student?"}</span><Link href="/login">{el ? "Συνέχισε από εκεί που έμεινες" : "Pick up where you left off"}<ArrowRight size={16} /></Link></div>}
     </div>
   );
 }
