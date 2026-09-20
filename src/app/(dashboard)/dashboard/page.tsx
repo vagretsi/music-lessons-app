@@ -1,3 +1,4 @@
+import { TeacherDashboard } from "@/components/teacher/TeacherDashboard";
 import { TIME_ZONE } from "@/lib/availability";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -25,10 +26,21 @@ export default async function DashboardPage() {
 
   if (!user) redirect("/login");
 
+  if (user.role === "TEACHER") {
+    const bookings = await prisma.booking.findMany({
+      where: { teacherId: session.user.id, status: { in: ["PENDING", "CONFIRMED"] } },
+      select: { id: true, scheduledAt: true, duration: true, status: true, notes: true, student: { select: { name: true } } },
+      orderBy: { scheduledAt: "asc" },
+    });
+    const now = Date.now();
+    return <TeacherDashboard name={user.name} bookings={bookings
+      .filter(booking => booking.scheduledAt.getTime() + booking.duration * 60000 > now)
+      .map(booking => ({ ...booking, scheduledAt: booking.scheduledAt.toISOString() }))} />;
+  }
+
   return (
     <div className="min-h-screen pt-24 pb-16 px-6">
       <div className="max-w-6xl mx-auto">
-        {user.role === "TEACHER" && <div className="card-dark mb-8 flex flex-wrap items-center justify-between gap-4"><div><h2 className="text-xl">Η διαθεσιμότητά μου</h2><p className="mt-2 text-sm text-cream/60">Όρισε τις ημέρες και ώρες που διδάσκεις.</p></div><Link href="/availability" className="btn-primary">Ρύθμιση ωραρίου</Link></div>}
         {/* Header */}
         <div className="mb-10 flex items-end justify-between flex-wrap gap-4">
           <div>
