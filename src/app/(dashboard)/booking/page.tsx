@@ -25,11 +25,11 @@ export default async function BookingPage() {
     return (
       <div className="min-h-screen pt-24 pb-16 px-6 flex items-center justify-center">
         <div className="text-center max-w-md">
-          <p className="font-display text-4xl text-cream mb-4">Upgrade to Book Sessions</p>
+          <p className="font-display text-4xl text-cream mb-4">Κλείσε το προσωπικό σου μάθημα</p>
           <p className="text-cream/50 mb-8">
-            Live 1-on-1 sessions are available on Sonata and Symphony plans.
+            Οι προσωπικές συνεδρίες περιλαμβάνονται στα πλάνα Sonata και Symphony.
           </p>
-          <a href="/pricing" className="btn-primary">View Plans</a>
+          <a href="/pricing" className="btn-primary">Δες τα πλάνα</a>
         </div>
       </div>
     );
@@ -39,9 +39,9 @@ export default async function BookingPage() {
     <div className="min-h-screen pt-24 pb-16 px-6">
       <div className="max-w-4xl mx-auto">
         <div className="mb-10">
-          <p className="text-gold/60 tracking-widest text-xs uppercase mb-1">Sessions</p>
-          <h1 className="font-display text-4xl text-cream">Book a Live Session</h1>
-          <p className="text-cream/40 mt-2">Choose a teacher and schedule your 1-on-1 session.</p>
+          <p className="text-gold/60 tracking-widest text-xs uppercase mb-1">Κρατήσεις</p>
+          <h1 className="font-display text-4xl text-cream">Βρες την ώρα σου.</h1>
+          <p className="text-cream/40 mt-2">Διάλεξε καθηγητή, ημέρα και ώρα.</p>
         </div>
 
         <BookingForm teachers={teachers as any} userId={session.user.id} />

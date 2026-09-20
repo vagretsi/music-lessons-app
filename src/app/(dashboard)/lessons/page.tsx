@@ -26,23 +26,22 @@ export default async function LessonsPage() {
     return tierOrder[userTier as keyof typeof tierOrder] >= tierOrder[lessonTier as keyof typeof tierOrder];
   }
 
-  const instruments = Array.from(new Set(lessons.map((l) => l.instrument).filter(Boolean)));
 
   return (
     <div className="min-h-screen pt-24 pb-16 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="mb-10">
-          <p className="text-gold/60 tracking-widest text-xs uppercase mb-1">Learn</p>
-          <h1 className="font-display text-5xl text-cream mb-3">Video Lessons</h1>
+          <p className="text-gold/60 tracking-widest text-xs uppercase mb-1">Στον ρυθμό σου</p>
+          <h1 className="font-display text-5xl text-cream mb-3">Μαθήματα</h1>
           <p className="text-cream/40">
-            {lessons.length} lessons across all instruments and levels.
+            Διάλεξε ένα μάθημα και ξεκίνα.
           </p>
         </div>
 
         {/* Lessons Grid */}
         {lessons.length === 0 ? (
           <div className="text-center py-24">
-            <p className="text-cream/30 text-lg">No lessons published yet. Check back soon!</p>
+            <p className="text-cream/30 text-lg">Τα πρώτα μαθήματα θα εμφανιστούν εδώ μόλις δημοσιευτούν.</p>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -99,17 +98,17 @@ export default async function LessonsPage() {
                     {lesson.description && (
                       <p className="text-cream/40 text-sm line-clamp-2 mb-3">{lesson.description}</p>
                     )}
-                    <p className="text-cream/30 text-xs">By {lesson.teacher.user.name}</p>
+                    <p className="text-cream/30 text-xs">Με {lesson.teacher.user.name}</p>
                   </div>
 
                   <div className="mt-4">
                     {accessible ? (
                       <Link href={`/lessons/${lesson.id}`} className="btn-secondary w-full text-center text-sm py-2">
-                        Watch Lesson
+                        Δες το μάθημα
                       </Link>
                     ) : (
                       <Link href="/pricing" className="btn-primary w-full text-center text-sm py-2">
-                        Upgrade to Access
+                        Δες το πλάνο
                       </Link>
                     )}
                   </div>

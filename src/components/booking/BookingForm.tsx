@@ -35,6 +35,7 @@ export function BookingForm({ teachers, userId }: { teachers: Teacher[]; userId:
   const [selectedTime, setSelectedTime] = useState("");
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
   const today = new Date().toISOString().split("T")[0];
@@ -57,6 +58,8 @@ export function BookingForm({ teachers, userId }: { teachers: Teacher[]; userId:
 
     const scheduledAt = new Date(`${selectedDate}T${selectedTime}:00`);
 
+    setError("");
+    try {
     const res = await fetch("/api/booking", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -70,30 +73,34 @@ export function BookingForm({ teachers, userId }: { teachers: Teacher[]; userId:
     if (res.ok) {
       setSuccess(true);
       setTimeout(() => router.push("/dashboard"), 3000);
+    } else {
+      setError(res.status === 409 ? "Η ώρα έχει ήδη κλειστεί. Διάλεξε άλλη ώρα." : "Η κράτηση δεν ολοκληρώθηκε. Δοκίμασε ξανά.");
     }
-    setLoading(false);
+    } catch { setError("Δεν ήταν δυνατή η σύνδεση. Δοκίμασε ξανά."); }
+    finally { setLoading(false); }
   };
 
   if (success) {
     return (
       <div className="text-center py-24">
         <CheckCircle2 size={48} className="text-gold mx-auto mb-4" />
-        <h2 className="font-display text-4xl text-cream mb-2">Booking Confirmed!</h2>
-        <p className="text-cream/40">You'll receive a confirmation email shortly.</p>
+        <h2 className="font-display text-4xl text-cream mb-2">Η κράτηση ολοκληρώθηκε!</h2>
+        <p className="text-cream/40">Θα μεταφερθείς στον χώρο σου για να δεις την κράτηση.</p>
       </div>
     );
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
+      {error && <p role="alert" className="text-red-300">{error}</p>}
       {/* Step 1: Select Teacher */}
       <div>
         <h2 className="font-display text-2xl text-cream mb-4 flex items-center gap-2">
           <span className="w-8 h-8 border border-gold/40 flex items-center justify-center text-gold text-sm">1</span>
-          Select a Teacher
+          Διάλεξε καθηγητή
         </h2>
         {teachers.length === 0 ? (
-          <p className="text-cream/40">No teachers available at the moment.</p>
+          <p className="text-cream/40">Δεν υπάρχουν διαθέσιμοι καθηγητές αυτή τη στιγμή.</p>
         ) : (
           <div className="grid md:grid-cols-2 gap-4">
             {teachers.map((teacher) => (
@@ -101,7 +108,7 @@ export function BookingForm({ teachers, userId }: { teachers: Teacher[]; userId:
                 key={teacher.id}
                 type="button"
                 onClick={() => { setSelectedTeacher(teacher); setSelectedTime(""); }}
-                className={`text-left p-5 border transition-all duration-200 ${
+                className={`text-left rounded-2xl p-5 border transition-all duration-200 ${
                   selectedTeacher?.id === teacher.id
                     ? "border-gold bg-gold/5"
                     : "border-gold/20 hover:border-gold/40"
@@ -135,9 +142,10 @@ export function BookingForm({ teachers, userId }: { teachers: Teacher[]; userId:
         <div>
           <h2 className="font-display text-2xl text-cream mb-4 flex items-center gap-2">
             <span className="w-8 h-8 border border-gold/40 flex items-center justify-center text-gold text-sm">2</span>
-            Select a Date
+            Διάλεξε ημέρα
           </h2>
           <input
+            aria-label="Ημερομηνία μαθήματος"
             type="date"
             value={selectedDate}
             onChange={(e) => { setSelectedDate(e.target.value); setSelectedTime(""); }}
@@ -157,7 +165,7 @@ export function BookingForm({ teachers, userId }: { teachers: Teacher[]; userId:
         <div>
           <h2 className="font-display text-2xl text-cream mb-4 flex items-center gap-2">
             <span className="w-8 h-8 border border-gold/40 flex items-center justify-center text-gold text-sm">3</span>
-            Select a Time
+            Διάλεξε ώρα
           </h2>
           <div className="flex flex-wrap gap-2">
             {availableSlots.map((slot) => (
@@ -165,7 +173,7 @@ export function BookingForm({ teachers, userId }: { teachers: Teacher[]; userId:
                 key={slot}
                 type="button"
                 onClick={() => setSelectedTime(slot)}
-                className={`px-4 py-2 border text-sm font-serif transition-all duration-200 ${
+                className={`rounded-lg px-4 py-2 border text-sm font-serif transition-all duration-200 ${
                   selectedTime === slot
                     ? "border-gold bg-gold/10 text-gold"
                     : "border-gold/20 text-cream/60 hover:border-gold/40"
@@ -183,7 +191,7 @@ export function BookingForm({ teachers, userId }: { teachers: Teacher[]; userId:
         <div>
           <h2 className="font-display text-2xl text-cream mb-4 flex items-center gap-2">
             <span className="w-8 h-8 border border-gold/40 flex items-center justify-center text-gold text-sm">4</span>
-            Confirm Booking
+            Επιβεβαίωση κράτησης
           </h2>
 
           {/* Summary */}
@@ -207,13 +215,14 @@ export function BookingForm({ teachers, userId }: { teachers: Teacher[]; userId:
 
           <div className="mb-5">
             <label className="block text-cream/60 text-xs tracking-widest uppercase mb-2">
-              Notes for your teacher (optional)
+              Σημείωση για τον καθηγητή (προαιρετικά)
             </label>
             <textarea
+              aria-label="Σημείωση για τον καθηγητή"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               className="input-field resize-none h-24"
-              placeholder="What would you like to work on?"
+              placeholder="Τι θα ήθελες να δουλέψετε;"
             />
           </div>
 
@@ -222,7 +231,7 @@ export function BookingForm({ teachers, userId }: { teachers: Teacher[]; userId:
             disabled={loading}
             className="btn-primary py-4 px-8 disabled:opacity-50"
           >
-            {loading ? <Loader2 size={18} className="animate-spin" /> : "Confirm Booking"}
+            {loading ? <Loader2 size={18} className="animate-spin" /> : "Επιβεβαίωση κράτησης"}
           </button>
         </div>
       )}

@@ -16,21 +16,21 @@ const config: Config = {
       },
       colors: {
         ink: {
-          DEFAULT: "#0F172A",
-          50: "#162033",
-          100: "#1D2940",
-          200: "#273654",
+          DEFAULT: "#141614",
+          50: "#191C19",
+          100: "#202420",
+          200: "#303730",
         },
         gold: {
-          DEFAULT: "#7DD3FC",
-          light: "#BAE6FD",
-          dark: "#38BDF8",
-          muted: "#5D8FB2",
+          DEFAULT: "#D3F78A",
+          light: "#E3FFAE",
+          dark: "#B5DC70",
+          muted: "#A2B681",
         },
         cream: {
-          DEFAULT: "#E5EEF9",
-          dark: "#C7D3E5",
-          light: "#F8FBFF",
+          DEFAULT: "#F1F2EA",
+          dark: "#CCCEC5",
+          light: "#FAFBF6",
         },
         burgundy: {
           DEFAULT: "#F59E8B",

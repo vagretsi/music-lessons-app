@@ -39,42 +39,15 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen px-6 pt-24 pb-14 staff-lines">
-      <div className="mx-auto grid w-full max-w-5xl gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
-        <div className="max-w-md">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.25em] text-gold/75">
-            <Music size={14} className="text-gold" />
-            {locale === "el" ? "Περιλαμβάνεται το Prelude" : "Prelude access included"}
-          </div>
-          <h1 className="font-display text-4xl text-cream md:text-5xl">
-            {locale === "el" ? "Δημιουργήστε λογαριασμό" : "Create your account"}
-          </h1>
-          <p className="mt-4 text-lg leading-relaxed text-cream/60">
-            {locale === "el"
-              ? "Μπείτε σε ένα πιο καθαρό και ήρεμο περιβάλλον μάθησης, χωρίς περιττό βάρος στην εμπειρία."
-              : "Step into a calmer learning space with less visual weight and a clearer rhythm."}
-          </p>
-
-          <div className="mt-8 space-y-4">
-            {[
-              locale === "el" ? "Δωρεάν έναρξη με Prelude" : "Start free with Prelude",
-              locale === "el" ? "Πρόσβαση σε lessons από κινητό και desktop" : "Access lessons from mobile and desktop",
-              locale === "el" ? "Έτοιμο για live sessions και AI feedback" : "Ready for live sessions and AI feedback",
-            ].map((item) => (
-              <div key={item} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-cream/60">
-                {item}
-              </div>
-            ))}
-          </div>
-        </div>
-
+      <div className="mx-auto w-full max-w-md">
         <div className="glass rounded-[32px] p-7 md:p-9">
           <div className="mb-8 text-center">
             <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
               <Music size={22} className="text-gold" />
             </div>
-            <h2 className="font-display text-3xl text-cream">
+            <h1 className="font-display text-3xl text-cream">
               {locale === "el" ? "Ξεκινήστε δωρεάν σήμερα" : "Start free today"}
-            </h2>
+            </h1>
             <p className="mt-2 text-cream/40">
               {locale === "el" ? "Θα βρίσκεστε στο δωρεάν πλάνο μέχρι να αναβαθμίσετε." : "You’ll stay on the free plan until you decide to upgrade."}
             </p>
@@ -93,6 +66,8 @@ export default function RegisterPage() {
               </label>
               <input
                 type="text"
+                aria-label={locale === "el" ? "Ονοματεπώνυμο" : "Full name"}
+                autoComplete="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="input-field"
@@ -108,6 +83,8 @@ export default function RegisterPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="input-field"
+                aria-label="Email"
+                autoComplete="email"
                 placeholder="you@example.com"
                 required
               />
@@ -122,6 +99,8 @@ export default function RegisterPage() {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  aria-label={locale === "el" ? "Κωδικός" : "Password"}
+                  autoComplete="new-password"
                   className="input-field pr-12"
                   placeholder="Min. 8 characters"
                   minLength={8}
@@ -129,6 +108,7 @@ export default function RegisterPage() {
                 />
                 <button
                   type="button"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-cream/30 transition-colors hover:text-cream/60"
                 >

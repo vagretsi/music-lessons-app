@@ -31,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${sora.variable} ${manrope.variable}`}>
+    <html lang="el" className={`${sora.variable} ${manrope.variable}`}>
       <body className="bg-ink text-cream font-sans antialiased">
         <Providers>
           <Navbar />
