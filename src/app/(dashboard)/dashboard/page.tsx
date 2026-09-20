@@ -27,6 +27,7 @@ export default async function DashboardPage() {
   return (
     <div className="min-h-screen pt-24 pb-16 px-6">
       <div className="max-w-6xl mx-auto">
+        {user.role === "TEACHER" && <div className="card-dark mb-8 flex flex-wrap items-center justify-between gap-4"><div><h2 className="text-xl">Η διαθεσιμότητά μου</h2><p className="mt-2 text-sm text-cream/60">Όρισε τις ημέρες και ώρες που διδάσκεις.</p></div><Link href="/availability" className="btn-primary">Ρύθμιση ωραρίου</Link></div>}
         {/* Header */}
         <div className="mb-10 flex items-end justify-between flex-wrap gap-4">
           <div>

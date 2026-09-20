@@ -2,6 +2,7 @@
 
 import { useLocale } from "@/app/providers";
 import { instrumentLabel } from "@/lib/instruments";
+import { athensDate, athensParts, timeSlots } from "@/lib/availability";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Calendar, Clock, User, Loader2, CheckCircle2 } from "lucide-react";
@@ -16,20 +17,6 @@ interface Teacher {
 
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-function getTimeSlots(start: string, end: string): string[] {
-  const slots: string[] = [];
-  const [sh, sm] = start.split(":").map(Number);
-  const [eh, em] = end.split(":").map(Number);
-  let hour = sh;
-  let min = sm;
-  while (hour < eh || (hour === eh && min < em)) {
-    slots.push(`${String(hour).padStart(2, "0")}:${String(min).padStart(2, "0")}`);
-    min += 60;
-    if (min >= 60) { hour++; min = 0; }
-  }
-  return slots;
-}
-
 export function BookingForm({ teachers, userId }: { teachers: Teacher[]; userId: string }) {
   const router = useRouter();
   const { locale } = useLocale();
@@ -41,15 +28,18 @@ export function BookingForm({ teachers, userId }: { teachers: Teacher[]; userId:
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const today = new Date().toISOString().split("T")[0];
+  const today = athensParts(new Date()).date;
 
   const getAvailableSlots = () => {
     if (!selectedTeacher || !selectedDate) return [];
-    const date = new Date(selectedDate);
-    const dayOfWeek = date.getDay();
-    const avail = selectedTeacher.availability.find((a) => a.dayOfWeek === dayOfWeek);
-    if (!avail) return [];
-    return getTimeSlots(avail.startTime, avail.endTime);
+    const dayOfWeek = new Date(`${selectedDate}T12:00:00Z`).getUTCDay();
+    return Array.from(new Set(selectedTeacher.availability
+      .filter(a => a.dayOfWeek === dayOfWeek)
+      .flatMap(a => timeSlots(a.startTime, a.endTime))))
+      .sort().filter(time => {
+        try { return athensDate(selectedDate, time).getTime() > Date.now(); }
+        catch { return false; }
+      });
   };
 
   const availableSlots = getAvailableSlots();
@@ -59,10 +49,11 @@ export function BookingForm({ teachers, userId }: { teachers: Teacher[]; userId:
     if (!selectedTeacher || !selectedDate || !selectedTime) return;
     setLoading(true);
 
-    const scheduledAt = new Date(`${selectedDate}T${selectedTime}:00`);
+
 
     setError("");
     try {
+    const scheduledAt = athensDate(selectedDate, selectedTime);
     const res = await fetch("/api/booking", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -96,6 +87,7 @@ export function BookingForm({ teachers, userId }: { teachers: Teacher[]; userId:
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       {error && <p role="alert" className="text-red-300">{error}</p>}
+      <p className="text-sm text-cream/60">{locale === "el" ? "Όλες οι ώρες είναι σε ώρα Ελλάδας (Europe/Athens)." : "All times are in Greece time (Europe/Athens)."}</p>
       {/* Step 1: Select Teacher */}
       <div>
         <h2 className="font-display text-2xl text-cream mb-4 flex items-center gap-2">

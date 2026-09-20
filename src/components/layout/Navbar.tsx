@@ -15,6 +15,7 @@ export function Navbar() {
   const el = locale === "el";
   const links = [
     ...(session ? [{ href: "/dashboard", label: el ? "Ο χώρος μου" : "My space" }] : []),
+    ...(session?.user.role === "TEACHER" ? [{ href: "/availability", label: el ? "Διαθεσιμότητα" : "Availability" }] : []),
     { href: "/lessons", label: el ? "Μαθήματα" : "Lessons" },
     { href: "/booking", label: el ? "Κρατήσεις" : "Bookings" },
     ...(session?.user.role === "ADMIN" ? [{ href: "/admin", label: el ? "Διαχείριση" : "Admin" }] : []),
